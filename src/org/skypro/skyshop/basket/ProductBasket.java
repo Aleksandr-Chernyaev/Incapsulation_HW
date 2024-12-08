@@ -49,7 +49,6 @@ public class ProductBasket {
         return false;
     }
 
-
     public void clearBasket() {
         products = new Product[5];
         count = 0;
