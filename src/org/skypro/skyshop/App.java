@@ -1,12 +1,17 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.Article.Article;
+import org.skypro.skyshop.Search.SearchEngine;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
 
+import java.util.Arrays;
+
 public class App {
     public static void main(String[] args) {
+        SearchEngine searchEngine = new SearchEngine();
 
         SimpleProduct product1 = new SimpleProduct("Хлеб", 35);
         SimpleProduct product2 = new SimpleProduct("Макароны", 90);
@@ -14,6 +19,26 @@ public class App {
         DiscountedProduct product4 = new DiscountedProduct("Пылесос", 12500, 50);
         DiscountedProduct product5 = new DiscountedProduct("Раковина", 3700, 25);
         SimpleProduct product6 = new SimpleProduct("Диван", 24000); // создал для добавления в полную корзину
+
+        searchEngine.add(product1);
+        searchEngine.add(product2);
+        searchEngine.add(product3);
+        searchEngine.add(product4);
+        searchEngine.add(product5);
+
+        Article article1 = new Article("Как выбрать пылесос", "Различные советы по выбору пылесоса.");
+        Article article2 = new Article("Лучшие макароны за 2024 год", "Лучшие рецепты с макаронами.");
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+
+        System.out.println("Результаты поиска для 'пылесос':");
+        System.out.println(Arrays.toString(searchEngine.search("пылесос")));
+
+        System.out.println("Результаты поиска для 'макароны':");
+        System.out.println(Arrays.toString(searchEngine.search("макароны")));
+
+        System.out.println("Результаты поиска для 'лучшие':");
+        System.out.println(Arrays.toString(searchEngine.search("лучшие")));
 
         ProductBasket basket = new ProductBasket();
 
