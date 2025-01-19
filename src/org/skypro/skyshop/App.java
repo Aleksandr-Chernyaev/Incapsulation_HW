@@ -25,7 +25,6 @@ public class App {
         basket.addProduct(product3);
         basket.addProduct(product4);
 
-        // Удаление товара
         List<Product> removedProducts = basket.removeProductsByName("Аспирин");
         System.out.println("Удалённые продукты:");
         for (Product product : removedProducts) {
@@ -33,14 +32,12 @@ public class App {
         }
         basket.printBasket();
 
-        // Удаление несуществующего товара
         List<Product> emptyRemoval = basket.removeProductsByName("Холодильник");
         if (emptyRemoval.isEmpty()) {
             System.out.println("Список пуст.");
         }
         basket.printBasket();
 
-        // Пример использования поискового движка
         SearchEngine searchEngine = new SearchEngine();
         searchEngine.add(product1);
         searchEngine.add(product2);
@@ -50,11 +47,10 @@ public class App {
         try {
             List<Searchable> searchResults = searchEngine.search("Хурма");
 
-            // Если вы хотите вывести только имена найденных продуктов:
             if (!searchResults.isEmpty()) {
                 System.out.println("Найденные результаты:");
                 for (Searchable result : searchResults) {
-                    System.out.println(result.getSearchTerm());  // Используем метод getSearchTerm для вывода имени
+                    System.out.println(result.getSearchTerm());
                 }
             } else {
                 System.out.println("Ничего не найдено.");
