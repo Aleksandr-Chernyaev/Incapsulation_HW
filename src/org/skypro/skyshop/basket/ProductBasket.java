@@ -1,56 +1,40 @@
 package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ProductBasket {
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products;
+
+    public ProductBasket() {
+        this.products = new ArrayList<>();
+    }
 
     public void addProduct(Product product) {
-        if (products.size() >= 5) {
-            System.out.println("Невозможно добавить продукт!");
-            return;
-        }
         products.add(product);
     }
 
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removedProducts = new ArrayList<>();
+        Iterator<Product> iterator = products.iterator();
+
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getName().equalsIgnoreCase(name)) {
+                removedProducts.add(product);
+                iterator.remove();
+            }
+        }
+        return removedProducts;
+    }
+
     public void printBasket() {
-        int totalPrice = 0;
-        int specialCount = 0;
-
+        // Здесь будет код для вывода содержимого корзины
         for (Product product : products) {
-            System.out.println(product);
-            totalPrice += product.getPrice();
-
-            if (product.isSpecial()) {
-                specialCount++;
-            }
+            System.out.println(product.getStringRepresentation());
         }
-
-        System.out.println("Итого: " + totalPrice);
-        System.out.println("Специальных товаров: " + specialCount);
-    }
-
-    public int getTotalPrice() {
-        int total = 0;
-        for (Product product : products) {
-            total += product.getPrice();
-        }
-        return total;
-    }
-
-    public void clearBasket() {
-        products.clear();
-        System.out.println("Корзина очищена.");
-    }
-
-    public boolean containsProduct(String name) {
-        for (Product product : products) {
-            if (product.getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
