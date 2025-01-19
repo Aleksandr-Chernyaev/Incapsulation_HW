@@ -9,7 +9,6 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class App {
