@@ -14,33 +14,18 @@ public class SearchEngine {
         searchableItems.add(item);
     }
 
-    public Searchable search(String term) throws BestResultNotFound {
-        Searchable bestMatch = null;
-        int maxCount = 0;
-
+    public List<Searchable> search(String term) throws BestResultNotFound {
+        List<Searchable> results = new ArrayList<>();
         for (Searchable item : searchableItems) {
-            int count = countOccurrences(item.getSearchTerm(), term);
-            if (count > maxCount) {
-                maxCount = count;
-                bestMatch = item;
+            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
+                results.add(item);
             }
         }
 
-        if (bestMatch == null || maxCount == 0) {
+        if (results.isEmpty()) {
             throw new BestResultNotFound("Не найдено подходящих результатов для: " + term);
         }
 
-        return bestMatch;
-    }
-
-    private int countOccurrences(String str, String subStr) {
-        int count = 0;
-        int index = 0;
-
-        while ((index = str.indexOf(subStr, index)) != -1) {
-            count++;
-            index += subStr.length();
-        }
-        return count;
+        return results;
     }
 }

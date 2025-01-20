@@ -3,49 +3,60 @@ package org.skypro.skyshop;
 import org.skypro.skyshop.Search.BestResultNotFound;
 import org.skypro.skyshop.Search.SearchEngine;
 import org.skypro.skyshop.Search.Searchable;
+import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 
+import java.util.List;
 
 public class App {
     public static void main(String[] args) {
+
+        ProductBasket basket = new ProductBasket();
+        Product product1 = new SimpleProduct("Хурма", 574);
+        Product product2 = new SimpleProduct("Куртка", 1870);
+        Product product3 = new DiscountedProduct("Аспирин", 140, 27);
+        Product product4 = new FixPriceProduct("Греча");
+
+        basket.addProduct(product1);
+        basket.addProduct(product2);
+        basket.addProduct(product3);
+        basket.addProduct(product4);
+
+        List<Product> removedProducts = basket.removeProductsByName("Аспирин");
+        System.out.println("Удалённые продукты:");
+        for (Product product : removedProducts) {
+            System.out.println(product.getName());
+        }
+        basket.printBasket();
+
+        List<Product> emptyRemoval = basket.removeProductsByName("Холодильник");
+        if (emptyRemoval.isEmpty()) {
+            System.out.println("Список пуст.");
+        }
+        basket.printBasket();
+
         SearchEngine searchEngine = new SearchEngine();
+        searchEngine.add(product1);
+        searchEngine.add(product2);
+        searchEngine.add(product3);
+        searchEngine.add(product4);
 
         try {
-            Product product1 = new SimpleProduct("", 57);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            List<Searchable> searchResults = searchEngine.search("Хурма");
 
-        try {
-            Product product2 = new SimpleProduct("Хурма", -1);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            if (!searchResults.isEmpty()) {
+                System.out.println("Найденные результаты:");
+                for (Searchable result : searchResults) {
+                    System.out.println(result.getSearchTerm());
+                }
+            } else {
+                System.out.println("Ничего не найдено.");
+            }
 
-        try {
-            Product product3 = new DiscountedProduct("Губная гармошка", 8965, 150);
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            Product product4 = new SimpleProduct("Макароны", 70);
-            Product product5 = new SimpleProduct("Диван", 17500);
-            Product product6 = new DiscountedProduct("Книга", 825, 37);
-            searchEngine.add(product4);
-            searchEngine.add(product5);
-            searchEngine.add(product6);
-
-            Searchable result = searchEngine.search("Макароны");
-            System.out.println("По Вашему запросу найдено: " + result.getStringRepresentation());
-
-            result = searchEngine.search("Котлета");
-            System.out.println("По Вашему запросу найдено: " + result.getStringRepresentation());
         } catch (BestResultNotFound e) {
-            System.out.println(e.getMessage());
-        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
