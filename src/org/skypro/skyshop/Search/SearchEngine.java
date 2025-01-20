@@ -1,31 +1,25 @@
 package org.skypro.skyshop.Search;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchEngine {
-    private final List<Searchable> searchableItems;
+    private List<Searchable> searchableItems;
 
-    public SearchEngine() {
-        this.searchableItems = new ArrayList<>();
+    public SearchEngine(List<Searchable> items) {
+        this.searchableItems = items;
     }
 
-    public void add(Searchable item) {
-        searchableItems.add(item);
-    }
-
-    public List<Searchable> search(String term) throws BestResultNotFound {
-        List<Searchable> results = new ArrayList<>();
+    public Map<String, Searchable> search(String query) throws BestResultNotFound {
+        Map<String, Searchable> resultMap = new TreeMap<>();
         for (Searchable item : searchableItems) {
-            if (item.getSearchTerm().toLowerCase().contains(term.toLowerCase())) {
-                results.add(item);
+            if (item.getName().toLowerCase().contains(query.toLowerCase())) {
+                resultMap.put(item.getName(), item);
             }
         }
 
-        if (results.isEmpty()) {
-            throw new BestResultNotFound("Не найдено подходящих результатов для: " + term);
+        if (resultMap.isEmpty()) {
+            throw new BestResultNotFound("По данному запросу ничего не найдено: " + query);
         }
-
-        return results;
+        return resultMap;
     }
 }

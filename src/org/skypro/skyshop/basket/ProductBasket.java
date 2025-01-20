@@ -1,40 +1,37 @@
 package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
-    private final List<Product> products;
+    public SimpleProduct addProduct;
+    private Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.products = new ArrayList<>();
+        products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        products.add(product);
+        products.putIfAbsent(product.getName(), new ArrayList<>());
+        products.get(product.getName()).add(product);
     }
 
-    public List<Product> removeProductsByName(String name) {
-        List<Product> removedProducts = new ArrayList<>();
-        Iterator<Product> iterator = products.iterator();
+    public List<Product> removeProductsByName(String productName) {
+        List<Product> removedProducts = products.remove(productName);
+        return removedProducts != null ? removedProducts : Collections.emptyList();
+    }
 
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getName().equalsIgnoreCase(name)) {
-                removedProducts.add(product);
-                iterator.remove();
+    public void printContents() {
+        for (Map.Entry<String, List<Product>> entry : products.entrySet()) {
+            System.out.println("Имя продукта: " + entry.getKey());
+            for (Product product : entry.getValue()) {
+                System.out.println(" - " + product);
             }
         }
-        return removedProducts;
     }
 
     public void printBasket() {
-        // Здесь будет код для вывода содержимого корзины
-        for (Product product : products) {
-            System.out.println(product.getStringRepresentation());
-        }
     }
 }
