@@ -1,13 +1,11 @@
 package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.product.SimpleProduct;
 
 import java.util.*;
 
 public class ProductBasket {
-    public SimpleProduct addProduct;
-    private Map<String, List<Product>> products;
+    private final Map<String, List<Product>> products;
 
     public ProductBasket() {
         products = new HashMap<>();
