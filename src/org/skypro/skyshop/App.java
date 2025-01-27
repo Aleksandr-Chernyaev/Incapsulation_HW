@@ -11,41 +11,29 @@ import org.skypro.skyshop.product.SimpleProduct;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class App {
     public static void main(String[] args) {
 
-        Product product1 = new SimpleProduct("Хурма", 574);
-        Product product2 = new SimpleProduct("Куртка", 1870);
-        Product product3 = new DiscountedProduct("Аспирин", 140, 27);
-        Product product4 = new FixPriceProduct("Греча");
+        ProductBasket basket = getProductBasket();
 
-        List<Searchable> items = new ArrayList<>();
-
-        items.add(product1);
-        items.add(product2);
-        items.add(product3);
-        items.add(product4);
-
-        ProductBasket basket = new ProductBasket();
-
-        basket.addProduct(product1);
-        basket.addProduct(product2);
-        basket.addProduct(product3);
-        basket.addProduct(product4);
-
-        basket.printContents();
-
-        SearchEngine searchEngine = new SearchEngine(items);
         try {
-            Map<String, Searchable> searchResults = searchEngine.search("Куртка");
+            SearchEngine searchEngine = new SearchEngine();
+            Set<Searchable> searchResults = searchEngine.search("Куртка");
             System.out.println("Найденные результаты: ");
-            for (Map.Entry<String, Searchable> entry : searchResults.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
+
+            if (searchResults != null && !searchResults.isEmpty()) {
+                for (Searchable searchable : searchResults) {
+                    System.out.println(searchable);
+                }
+            } else {
+                System.out.println("Результаты не найдены. Попробуйте изменить поисковый запрос.");
             }
         } catch (BestResultNotFound e) {
-            System.out.println(e.getMessage());
+            System.out.println("Ошибка: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Произошла ошибка: " + e.getMessage());
         }
 
         List<Product> removedProducts = basket.removeProductsByName("Аспирин");
@@ -60,5 +48,28 @@ public class App {
             System.out.println("Список пуст.");
         }
         basket.printBasket();
+    }
+
+    private static ProductBasket getProductBasket() {
+        Product product1 = new SimpleProduct("Хурма", 574);
+        Product product2 = new SimpleProduct("Куртка", 1870);
+        Product product3 = new DiscountedProduct("Аспирин", 140, 27);
+        Product product4 = new FixPriceProduct("Греча");
+
+        List<Searchable> items = new ArrayList<>();
+        items.add(product1);
+        items.add(product2);
+        items.add(product3);
+        items.add(product4);
+
+        ProductBasket basket = new ProductBasket();
+
+        basket.addProduct(product1);
+        basket.addProduct(product2);
+        basket.addProduct(product3);
+        basket.addProduct(product4);
+
+        basket.printContents();
+        return basket;
     }
 }

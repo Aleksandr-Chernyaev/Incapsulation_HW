@@ -12,21 +12,30 @@ public abstract class Product implements Searchable {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
     @Override
-    public String getSearchTerm() {
-        return getName();
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Product product = (Product) obj;
+        return name.equals(product.name);
     }
 
     @Override
-    public String getContentType() {
-        return "Товар";
+    public int hashCode() {
+        return name.hashCode();
     }
 
     public abstract int getPrice();
 
     public abstract boolean isSpecial();
+
+    @Override
+    public String toString() {
+        return getStringRepresentation();  // Можно использовать метод по умолчанию из интерфейса
+    }
 }
