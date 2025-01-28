@@ -22,16 +22,6 @@ public class SimpleProduct extends Product {
     }
 
     @Override
-    public String getSearchTerm() {
-        return "";
-    }
-
-    @Override
-    public String getContentType() {
-        return "";
-    }
-
-    @Override
     public String getStringRepresentation() {
         return super.getStringRepresentation();
     }

@@ -18,6 +18,16 @@ public abstract class Product implements Searchable {
     }
 
     @Override
+    public String getSearchTerm() {
+        return "";
+    }
+
+    @Override
+    public String getContentType() {
+        return "";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;

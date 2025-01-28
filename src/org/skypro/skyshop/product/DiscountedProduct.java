@@ -25,14 +25,4 @@ public class DiscountedProduct extends Product {
     public boolean isSpecial() {
         return false;
     }
-
-    @Override
-    public String getSearchTerm() {
-        return "";
-    }
-
-    @Override
-    public String getContentType() {
-        return "";
-    }
 }
