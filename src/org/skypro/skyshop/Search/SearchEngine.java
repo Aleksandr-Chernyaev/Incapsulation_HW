@@ -8,10 +8,6 @@ import java.util.Comparator;
 public class SearchEngine {
     private Set<Searchable> searchableItems = new HashSet<>();
 
-//    public void addItem(Searchable item) {
-//        searchableItems.add(item);
-//    }
-
     public Set<Searchable> search(String query) throws BestResultNotFound {
         Set<Searchable> resultSet = new TreeSet<>(new SearchableComparator());
         for (Searchable item : searchableItems) {

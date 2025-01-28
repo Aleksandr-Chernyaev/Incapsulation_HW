@@ -36,6 +36,6 @@ public abstract class Product implements Searchable {
 
     @Override
     public String toString() {
-        return getStringRepresentation();  // Можно использовать метод по умолчанию из интерфейса
+        return getStringRepresentation();
     }
 }
