@@ -21,15 +21,36 @@ public class ProductBasket {
         return removedProducts != null ? removedProducts : Collections.emptyList();
     }
 
+    public int getTotalCost() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
+    }
+
     public void printContents() {
-        for (Map.Entry<String, List<Product>> entry : products.entrySet()) {
-            System.out.println("Имя продукта: " + entry.getKey());
-            for (Product product : entry.getValue()) {
-                System.out.println(" - " + product);
-            }
-        }
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product -> System.out.println(" - " + product));
     }
 
     public void printBasket() {
+        System.out.println("Содержимое корзины:");
+        printContents();
+        System.out.println("Общее количество продуктов в корзине: " + getTotalCount());
+        System.out.println("Количество специальных продуктов: " + getSpecialCount());
+    }
+
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
+    }
+
+    private int getTotalCount() {
+        return (int) products.values().stream()
+                .flatMap(Collection::stream)
+                .count();
     }
 }
